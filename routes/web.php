@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductGalleryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,17 +18,26 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::middleware([
+Route::group(['middleware' => [
     'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    'verified',
+]], function(){
+    Route::name('dashboard.')->prefix('dashboard')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::middleware(['admin'])->group(function () {
+            Route::resource('productcategory', ProductCategoryController::class);
+            Route::resource('product', ProductController::class);
+            Route::resource('productgallery', ProductGalleryController::class);
+            Route::resource('order', OrderController::class);
+            Route::resource('user', UserController::class);
+        });
+        Route::middleware(['admin'])->group(function () {
+            Route::resource('productcategory', ProductCategoryController::class);
+            Route::resource('product', ProductController::class);
+            Route::resource('productgallery', ProductGalleryController::class);
+            Route::resource('order', OrderController::class);
+        });
+    });
 });
