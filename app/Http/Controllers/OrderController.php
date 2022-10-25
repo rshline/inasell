@@ -24,11 +24,11 @@ class OrderController extends Controller
                 ->addColumn('action', function ($item) {
                     return '
                         <a class="inline-block border border-blue-700 bg-blue-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-blue-800 focus:outline-none focus:shadow-outline" 
-                            href="' . route('dashboard.order.show', $item->id) . '">
+                            href="' . route('admin.order.show', $item->id) . '">
                             Show
                         </a>
                         <a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
-                            href="' . route('dashboard.order.edit', $item->id) . '">
+                            href="' . route('admin.order.edit', $item->id) . '">
                             Edit
                         </a>';
                 })
@@ -39,7 +39,7 @@ class OrderController extends Controller
                 ->make();
         }
 
-        return view('pages.dashboard.order.index');
+        return view('pages.admin.order.index');
     }
 
     /**
@@ -81,7 +81,7 @@ class OrderController extends Controller
                 ->make();
         }
 
-        return view('pages.dashboard.order.show', compact('order'));
+        return view('pages.admin.order.show', compact('order'));
     }
 
     /**
@@ -92,7 +92,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        return view('pages.dashboard.order.edit',[
+        return view('pages.admin.order.edit',[
             'item' => $order
         ]);
     }
@@ -110,7 +110,7 @@ class OrderController extends Controller
 
         $order->update($data);
 
-        return redirect()->route('dashboard.order.index');
+        return redirect()->route('admin.order.index');
     }
 
     /**
@@ -122,5 +122,19 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    
+    //USER
+    public function showlist()
+    {
+        return view('pages.dashboard.order.index');
+    }
+
+    public function getProductList(Order $orders)
+    {
+        $products = Order::latest()->get();
+
+        return view('orders', compact('orders'));
     }
 }

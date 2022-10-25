@@ -23,10 +23,10 @@ class ProductController extends Controller
                 ->addColumn('action', function ($item) {
                     return '
                         <a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
-                            href="' . route('dashboard.product.edit', $item->id) . '">
+                            href="' . route('admin.product.edit', $item->id) . '">
                             Edit
                         </a>
-                        <form class="inline-block" action="' . route('dashboard.product.destroy', $item->id) . '" method="POST">
+                        <form class="inline-block" action="' . route('admin.product.destroy', $item->id) . '" method="POST">
                         <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" >
                             Hapus
                         </button>
@@ -37,7 +37,7 @@ class ProductController extends Controller
                 ->make();
             }
 
-        return view('pages.dashboard.product.index');
+        return view('pages.admin.product.index');
     }
 
     /**
@@ -63,7 +63,7 @@ class ProductController extends Controller
 
         Product::create($data);
 
-        return redirect()->route('dashboard.product.index');
+        return redirect()->route('admin.product.index');
     }
 
     /**
@@ -86,7 +86,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = ProductCategory::all();
-        return view('pages.dashboard.product.edit',[
+        return view('pages.admin.product.edit',[
             'item' => $product,
             'categories' => $categories,
         ]);
@@ -105,7 +105,7 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        return redirect()->route('dashboard.product.index');
+        return redirect()->back();
     }
 
     /**
@@ -118,6 +118,21 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return redirect()->route('dashboard.product.index');
+        return redirect()->back();
+    }
+
+    //USER
+
+    public function showlist(Product $products)
+    {
+        $products = Product::latest()->get();
+
+        return view('pages.dashboard.product.index', compact('products'));
+    }
+
+    public function addproduct()
+    {
+        $categories = ProductCategory::all();
+        return view('pages.dashboard.product.create', compact('categories'));
     }
 }

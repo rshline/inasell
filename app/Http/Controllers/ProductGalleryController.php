@@ -23,7 +23,7 @@ class ProductGalleryController extends Controller
             return DataTables::of($query)
                 ->addColumn('action', function ($item) {
                     return '
-                        <form class="inline-block" action="' . route('dashboard.gallery.destroy', $item->id) . '" method="POST">
+                        <form class="inline-block" action="' . route('admin.gallery.destroy', $item->id) . '" method="POST">
                         <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" >
                             Hapus
                         </button>
@@ -40,7 +40,7 @@ class ProductGalleryController extends Controller
                 ->make();
         }
 
-        return view('pages.dashboard.gallery.index', compact('product'));
+        return view('pages.admin.gallery.index', compact('product'));
     }
 
     /**
@@ -50,7 +50,7 @@ class ProductGalleryController extends Controller
      */
     public function create()
     {
-        return view('pages.dashboard.gallery.create', compact('product'));
+        return view('pages.admin.gallery.create', compact('product'));
     }
 
     /**
@@ -75,7 +75,7 @@ class ProductGalleryController extends Controller
             }
         }
 
-        return redirect()->route('dashboard.product.gallery.index', $product->id);
+        return redirect()->route('admin.product.gallery.index', $product->id);
     }
 
     /**
@@ -122,6 +122,6 @@ class ProductGalleryController extends Controller
     {
         $productGallery->delete();
 
-        return redirect()->route('dashboard.product.gallery.index', $productGallery->products_id);
+        return redirect()->route('admin.product.gallery.index', $productGallery->products_id);
     }
 }

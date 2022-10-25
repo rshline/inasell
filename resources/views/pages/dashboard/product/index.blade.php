@@ -1,57 +1,25 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Product') }}
-        </h2>
-    </x-slot>
+    <div class="bg-white mt-5 min-h-full">
+        <div class="m-3 p-3 rounded shadow-lg flex justify-between align-middle">
+            <h2 class="font-semibold text-xl">
+                {{ __('Product') }}
+            </h2>
+            <a href="{{ route('dashboard.addProduct') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
+                + Add Product
+            </a>
+        </div>
 
-    <x-slot name="script">
-        <script>
-            // AJAX DataTable
-            var datatable = $('#crudTable').DataTable({
-                ajax: {
-                    url: '{!! url()->current() !!}',
-                },
-                columns: [
-                    { data: 'id', name: 'id', width: '5%'},
-                    { data: 'name', name: 'name' },
-                    { data: 'qty', name: 'qty' },
-                    { data: 'category.name', name: 'category.name' },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                        width: '25%'
-                    },
-                ],
-            });
-        </script>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-10">
-                <a href="{{ route('dashboard.product.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                    + Create Product
+        <div class="flex m-3 p-3">
+            @foreach($products as $product)
+            <div class="flex-1 m-3 p-3 w-2/6 rounded shadow-lg">
+                <h3 class="font-semibold text-gray-800">
+                    {{ $product->name }}
+                </h3>
+                <a href="{{ route('dashboard.showProduct') }}" class="">
+                    Show Details
                 </a>
             </div>
-            <div class="shadow overflow-hidden sm:rounded-md">
-                <div class="px-4 py-5 bg-white sm:p-6">
-                    <table id="crudTable">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nama</th>
-                            <th>Total</th>
-                            <th>Kategori</th>
-                            <th>Aksi</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+            @endforeach 
         </div>
     </div>
 </x-app-layout>

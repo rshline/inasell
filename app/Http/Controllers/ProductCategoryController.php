@@ -23,10 +23,10 @@ class ProductCategoryController extends Controller
                 ->addColumn('action', function ($item) {
                     return '
                         <a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
-                            href="' . route('dashboard.productcategory.edit', $item->id) . '">
+                            href="' . route('admin.productcategory.edit', $item->id) . '">
                             Edit
                         </a>
-                        <form class="inline-block" action="' . route('dashboard.productcategory.destroy', $item->id) . '" method="POST">
+                        <form class="inline-block" action="' . route('admin.productcategory.destroy', $item->id) . '" method="POST">
                         <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" >
                             Hapus
                         </button>
@@ -37,7 +37,7 @@ class ProductCategoryController extends Controller
                 ->make();
         }
 
-        return view('pages.dashboard.productcategory.index');
+        return view('pages.admin.productcategory.index');
     }
 
     /**
@@ -47,7 +47,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        return view('pages.dashboard.productcategory.create');
+        return view('pages.admin.productcategory.create');
     }
 
     /**
@@ -62,7 +62,7 @@ class ProductCategoryController extends Controller
 
         ProductCategory::create($data);
 
-        return redirect()->route('dashboard.productcategory.index');
+        return redirect()->route('admin.productcategory.index');
     }
 
     /**
@@ -84,7 +84,7 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $productcategory)
     {
-        return view('pages.dashboard.productcategory.edit',[
+        return view('pages.admin.productcategory.edit',[
             'item' => $productcategory
         ]);
     }
@@ -102,7 +102,7 @@ class ProductCategoryController extends Controller
 
         $productcategory->update($data);
 
-        return redirect()->route('dashboard.productcategory.index');
+        return redirect()->route('admin.productcategory.index');
     }
 
     /**
@@ -115,6 +115,6 @@ class ProductCategoryController extends Controller
     {
         $productcategory->delete();
 
-        return redirect()->route('dashboard.productcategory.index');
+        return redirect()->route('admin.productcategory.index');
     }
 }
