@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class OrderRequest extends FormRequest
+class ShopListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,10 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => 'in:PENDING,PROCESSED,DELIVERED,SUCCESSED,CANCELLED'
+            'users_id' => 'required|exists:users,id',
+            'shops_id' => 'required|exists:shops,id',
+            'isOwner'=> 'boolean',
+            'status' => 'in:PENDING,MEMBER,REJECTED',
         ];
     }
 }

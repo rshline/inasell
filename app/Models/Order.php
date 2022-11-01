@@ -20,6 +20,10 @@ class Order extends Model
         return $this->belongsTo(User::class, 'users_id', 'id');
     }
 
+    public function shop(){
+        return $this->belongsTo(Shop::class, 'shops_id', 'id');
+    }
+
     public function items(){
         return $this->hasMany(OrderItem::class, 'orders_id', 'id');
     }
