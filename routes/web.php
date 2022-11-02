@@ -8,7 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGalleryController;
-use App\Models\Product;
+use App\Http\Controllers\ShopController;
+
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -23,6 +24,12 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
+Route::get('/', function () {
+    return redirect('/home');
+});
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 Route::group(['middleware' => [
     'auth:sanctum',
     'verified',
@@ -31,24 +38,20 @@ Route::group(['middleware' => [
         Route::get('/', [AdminPageController::class, 'index'])->name('index');
         
         Route::middleware(['admin'])->group(function () {
-            Route::resource('productcategory', ProductCategoryController::class);
-            Route::resource('product', ProductController::class);
-            Route::resource('productgallery', ProductGalleryController::class);
-            Route::resource('order', OrderController::class);
             Route::resource('user', UserController::class);
+            Route::resource('shop', ShopController::class);
         });
     });
 
     Route::name('dashboard.')->prefix('dashboard')->group((function (){
         Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-        Route::get('/showproducts', [ProductController::class, 'showlist'])->name('showProducts');
-        Route::get('/addproduct', [ProductController::class, 'addproduct'])->name('addProduct');
-        Route::get('/showproduct/{product?}', [ProductController::class, 'show'])->name('showProduct');
+        Route::resource('product', ProductController::class);
+        Route::resource('productcategory', ProductCategoryController::class);
+        Route::resource('productgallery', ProductGalleryController::class);
+        Route::resource('order', OrderController::class);
 
-        Route::get('/showorders', [OrderController::class, 'showlist'])->name('showOrders');
+        //
     }));
     
 });
-
-Route::get('/', [HomeController::class, 'index'])->name('index');

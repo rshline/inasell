@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCategoryRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Http\Requests\ProductRequest;
+use App\Models\ProductVariant;
 use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
@@ -14,30 +16,28 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ProductRequest $request)
     {
-        if (request()->ajax()) {
-            $query = Product::with('category');
+        $products = Product::with(['productcategory']);
 
-            return DataTables::of($query)
-                ->addColumn('action', function ($item) {
-                    return '
-                        <a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
-                            href="' . route('admin.product.edit', $item->id) . '">
-                            Edit
-                        </a>
-                        <form class="inline-block" action="' . route('admin.product.destroy', $item->id) . '" method="POST">
-                        <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" >
-                            Hapus
-                        </button>
-                            ' . method_field('delete') . csrf_field() . '
-                        </form>';
-                })
-                ->rawColumns(['action'])
-                ->make();
-            }
+        if ($request->get('productcategory')) {
+            $productcategory = $request->productcategory;
+            $products->whereHas(
+                'productcategory',
+                function ($query) use ($productcategory) {
+                    $query->where('name', 'LIKE', "%{$productcategory}%");
+                }
+            );
+        }
 
-        return view('pages.admin.product.index');
+        if ($request->get('keyword')) {
+            $products->search($request->keyword);
+        }
+
+        return view('pages.dashboard.product.index', [
+            'products' => $products->paginate(10),
+            'productcategories' => ProductCategory::all()
+        ]);
     }
 
     /**
@@ -63,7 +63,7 @@ class ProductController extends Controller
 
         Product::create($data);
 
-        return redirect()->route('admin.product.index');
+        return redirect()->route('dashboard.product.index');
     }
 
     /**
@@ -72,8 +72,34 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(ProductRequest $request, Product $product)
     {
+        $id = $request->input('id');
+        $limit = $request->input('limit');
+        $name = $request->input('name');
+        $categories = $request->input('categories');
+
+        if($id){
+            $product = Product::with(['category', 'galleries', 'variants'])->find($id);
+
+            if ($product) {
+                return $product;
+            } else {
+                return null;
+            }
+        }
+
+        $product = Product::with(['category', 'galleries', 'variants']);
+
+        if ($name) {
+            $product->where('name', 'like', '%'.$name.'%');
+        }
+
+        if ($categories) {
+            $product->where('categories', $categories);
+        }
+
+        return $product->paginate($limit);
 
     }
 
@@ -86,9 +112,11 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = ProductCategory::all();
-        return view('pages.admin.product.edit',[
-            'item' => $product,
-            'categories' => $categories,
+        $product = Product::with(['variants']);
+        
+        return view('pages.dashboard.product.edit', [
+            'product' => $product,
+            'categories' => $categories
         ]);
     }
 
@@ -119,20 +147,5 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->back();
-    }
-
-    //USER
-
-    public function showlist(Product $products)
-    {
-        $products = Product::latest()->get();
-
-        return view('pages.dashboard.product.index', compact('products'));
-    }
-
-    public function addproduct()
-    {
-        $categories = ProductCategory::all();
-        return view('pages.dashboard.product.create', compact('categories'));
     }
 }

@@ -6,11 +6,11 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     @if(Auth::user()->roles == 'ADMIN')
-                        <a href="{{ route('admin.index') }}">
+                        <a href="{{ route('home') }}">
                             <x-jet-application-mark class="block h-9 w-auto" />
                         </a>
                     @else
-                        <a href="{{ route('dashboard.index') }}">
+                        <a href="{{ route('home') }}">
                             <x-jet-application-mark class="block h-9 w-auto" />
                         </a>
                     @endif
@@ -23,23 +23,17 @@
                         <x-jet-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
                             {{ __('Dashboard') }}
                         </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('admin.productcategory.index') }}" :active="request()->routeIs('admin.productcategory.index')">
-                            {{ __('Category') }}
-                        </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('admin.product.index') }}" :active="request()->routeIs('admin.product.index')">
-                            {{ __('Product') }}
-                        </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('admin.order.index') }}" :active="request()->routeIs('admin.order.index')">
-                            {{ __('Order') }}
-                        </x-jet-nav-link>
                         <x-jet-nav-link href="{{ route('admin.user.index') }}" :active="request()->routeIs('admin.user.index')">
                             {{ __('User') }}
                         </x-jet-nav-link>
                     @else
-                        <x-jet-nav-link href="{{ route('dashboard.showProducts') }}" :active="request()->routeIs('dashboard.showProducts')">
+                        <x-jet-nav-link href="{{ route('dashboard.productcategory.index') }}" :active="request()->routeIs('dashboard.productcategory.index')">
+                            {{ __('Product Category') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('dashboard.product.index') }}" :active="request()->routeIs('dashboard.product.index')">
                             {{ __('Product') }}
                         </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('dashboard.showOrders') }}" :active="request()->routeIs('dashboard.showOrders')">
+                        <x-jet-nav-link href="{{ route('dashboard.order.index') }}" :active="request()->routeIs('dashboard.order.index')">
                             {{ __('Order') }}
                         </x-jet-nav-link>
                     @endif
@@ -169,12 +163,6 @@
             @if(Auth::user()->roles == 'ADMIN')
                 <x-jet-responsive-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
                     {{ __('Dashboard') }}
-                </x-jet-responsive-nav-link>
-                <x-jet-responsive-nav-link href="{{ route('admin.productcategory.index') }}" :active="request()->routeIs('admin.productcategory.index')">
-                    {{ __('Category') }}
-                </x-jet-responsive-nav-link>
-                <x-jet-responsive-nav-link href="{{ route('admin.productcategory.index') }}" :active="request()->routeIs('admin.productcategory.index')">
-                    {{ __('Product') }}
                 </x-jet-responsive-nav-link>
 
             @endif
