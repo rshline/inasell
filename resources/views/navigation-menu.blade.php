@@ -9,10 +9,6 @@
                         <a href="{{ route('home') }}">
                             <x-jet-application-mark class="block h-9 w-auto" />
                         </a>
-                    @else
-                        <a href="{{ route('home') }}">
-                            <x-jet-application-mark class="block h-9 w-auto" />
-                        </a>
                     @endif
                 </div>
 
@@ -26,14 +22,17 @@
                         <x-jet-nav-link href="{{ route('admin.user.index') }}" :active="request()->routeIs('admin.user.index')">
                             {{ __('User') }}
                         </x-jet-nav-link>
+                        <x-jet-nav-link href="">
+                            {{ __('Shop') }}
+                        </x-jet-nav-link>
                     @else
-                        <x-jet-nav-link href="{{ route('dashboard.productcategory.index') }}" :active="request()->routeIs('dashboard.productcategory.index')">
+                        <x-jet-nav-link href="{{ route('dashboard.shop.productcategory.index') }}" :active="request()->routeIs('dashboard.productcategory.index')">
                             {{ __('Product Category') }}
                         </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('dashboard.product.index') }}" :active="request()->routeIs('dashboard.product.index')">
+                        <x-jet-nav-link href="{{ route('dashboard.shop.product.index') }}" :active="request()->routeIs('dashboard.product.index')">
                             {{ __('Product') }}
                         </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('dashboard.order.index') }}" :active="request()->routeIs('dashboard.order.index')">
+                        <x-jet-nav-link href="{{ route('dashboard.shop.order.index') }}" :active="request()->routeIs('dashboard.order.index')">
                             {{ __('Order') }}
                         </x-jet-nav-link>
                     @endif

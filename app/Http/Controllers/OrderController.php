@@ -18,7 +18,7 @@ class OrderController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Order::with(['user']);
+            $query = Order::with(['user', 'items']);
 
             return DataTables::of($query)
                 ->addColumn('action', function ($item) {

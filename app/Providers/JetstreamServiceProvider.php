@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Actions\Jetstream\DeleteUser;
+use App\View\Components\AdminLayout;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\Blade;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,8 @@ class JetstreamServiceProvider extends ServiceProvider
         $this->configurePermissions();
 
         Jetstream::deleteUsersUsing(DeleteUser::class);
+        Blade::component('admin-layout', AdminLayout::class);
+
     }
 
     /**

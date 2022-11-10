@@ -14,19 +14,21 @@ class ProductCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($shop)
     {
         if (request()->ajax()) {
-            $query = ProductCategory::query();
+            $query = ProductCategory::with('shop')
+                    ->where('shops_id', '=', $shop)
+                    ->get();
 
             return DataTables::of($query)
                 ->addColumn('action', function ($item) {
                     return '
                         <a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
-                            href="' . route('dashboard.productcategory.edit', $item->id) . '">
+                            href="' . route('dashboard.shop.productcategory.edit', $item->id) . '">
                             Edit
                         </a>
-                        <form class="inline-block" action="' . route('dashboard.productcategory.destroy', $item->id) . '" method="POST">
+                        <form class="inline-block" action="' . route('dashboard.shop.productcategory.destroy', $item->id) . '" method="POST">
                         <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" >
                             Hapus
                         </button>
@@ -37,7 +39,7 @@ class ProductCategoryController extends Controller
                 ->make();
         }
 
-        return view('pages.dashboard.productcategory.index');
+        return view('pages.dashboard.productcategory.index', $shop);
     }
 
     /**
@@ -45,9 +47,9 @@ class ProductCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($shop)
     {
-        return view('pages.dashboard.productcategory.create');
+        return view('pages.dashboard.productcategory.create', $shop);
     }
 
     /**
@@ -56,13 +58,13 @@ class ProductCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(ProductCategoryRequest $request)
+    public function store($shop, ProductCategoryRequest $request)
     {
         $data = $request->all();
 
         ProductCategory::create($data);
 
-        return redirect()->route('dashboard.productcategory.index');
+        return redirect()->route('dashboard.shop.productcategory.index', $shop);
     }
 
     /**
@@ -71,20 +73,23 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productcategory
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function show(ProductCategoryRequest $request, ProductCategory $productcategory)
+    public function show($shop, ProductCategory $productcategory)
     {
-        $id = $request->input('id');
-        $limit = $request->input('limit');
-
-        if($id){
-            $category = ProductCategory::with(['products'])->find($id);
+        if($productcategory){
+            $category = ProductCategory::with(['products'])
+                        ->where('shops_id', '=', $shop)
+                        ->find($productcategory);
 
             if ($category) {
-                $category->paginate($limit);
+                $category->paginate(5);
             } else {
                 return null;
             }
         }
+
+        return view('pages.dashboard.productcategory.show', [
+            'item' => $category
+        ]);
     }
 
     /**
@@ -107,13 +112,13 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productcategory
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ProductCategoryRequest $request, ProductCategory $productcategory)
+    public function update($shop, ProductCategoryRequest $request, ProductCategory $productcategory)
     {
         $data = $request->all();
 
         $productcategory->update($data);
 
-        return redirect()->route('dashboard.productcategory.index');
+        return redirect()->route('dashboard.shop.productcategory.index', $shop);
     }
 
     /**
@@ -122,10 +127,10 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productcategory
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(ProductCategory $productcategory)
+    public function destroy($shop, ProductCategory $productcategory)
     {
         $productcategory->delete();
 
-        return redirect()->route('dashboard.productcategory.index');
+        return redirect()->route('dashboard.shop.productcategory.index', $shop);
     }
 }

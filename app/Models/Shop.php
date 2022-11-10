@@ -26,4 +26,14 @@ class Shop extends Model
     {
         return $this->hasMany(Order::class, 'shops_id', 'id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'shops_id', 'id');
+    }
+
+    public function product_categories()
+    {
+        return $this->hasMany(ProductCategory::class, 'shops_id', 'id');
+    }
 }

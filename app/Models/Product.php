@@ -15,6 +15,7 @@ class Product extends Model
         'qty',
         'desc',
         'categories_id',
+        'shops_id',
     ];
 
     public function galleries(){
@@ -25,7 +26,15 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class, 'products_id', 'id');
     }
 
+    public function orderitems(){
+        return $this->hasMany(OrderItem::class, 'order_items_id', 'id');
+    }
+
     public function category(){
         return $this->belongsTo(ProductCategory::class, 'categories_id', 'id');
+    }
+
+    public function shop(){
+        return $this->belongsTo(Shop::class, 'shops_id', 'id');
     }
 }
