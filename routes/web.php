@@ -10,8 +10,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGalleryController;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\ShopController;
-use App\Models\Shop;
-use App\Models\ShopList;
+use App\Http\Controllers\ShopListController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -48,8 +47,8 @@ Route::group(['middleware' => [
     Route::name('dashboard.')->prefix('dashboard')->group((function (){
         Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-        Route::resource('shop', Shop::class);
-        Route::resource('shoplist', ShopList::class);
+        Route::resource('shop', ShopController::class);
+        Route::resource('shoplist', ShopListController::class);
         Route::resource('shop.product', ProductController::class);
         Route::resource('shop.productcategory', ProductCategoryController::class);
         Route::resource('product.productgallery', ProductGalleryController::class);

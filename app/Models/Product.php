@@ -30,7 +30,7 @@ class Product extends Model
         return $this->hasMany(OrderItem::class, 'order_items_id', 'id');
     }
 
-    public function category(){
+    public function productcategory(){
         return $this->belongsTo(ProductCategory::class, 'categories_id', 'id');
     }
 

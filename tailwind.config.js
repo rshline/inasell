@@ -16,7 +16,8 @@ module.exports = {
                 m:'20%'
             },
             fontFamily: {
-                sans: ['Roboto', ...defaultTheme.fontFamily.sans],
+                sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
+                black: ['Roboto', ...defaultTheme.fontFamily.sans],
                 mono: ['"Roboto Mono"', ...defaultTheme.fontFamily.mono]
             },
         },

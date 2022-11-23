@@ -1,9 +1,7 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Category') }}
-        </h2>
-    </x-slot>
+<x-shop-layout>
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight p-3">
+        {{ __('Category') }}
+    </h2>
 
     <x-slot name="script">
         <script>
@@ -13,35 +11,33 @@
                     url: '{!! url()->current() !!}',
                 },
                 columns: [
-                    { data: 'id', name: 'id', width: '5%'},
                     { data: 'name', name: 'name' },
                     {
                         data: 'action',
                         name: 'action',
-                        orderable: false,
+                        orderable:  false,
                         searchable: false,
-                        width: '25%'
+                        width: '30%'
                     },
                 ],
             });
         </script>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-10">
-                <a href="{{ route('dashboard.productcategory.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                    + Create Category
-                </a>
-            </div>
+    <div class="p-3">
+        <div class="flex justify-end mb-6">
+            <a href="{{ route('dashboard.shop.productcategory.create', $shop) }}" class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-5 py-3 md:py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out my-4 md:my-0 w-full md:w-auto">
+                + Create Category
+            </a>
+        </div>
+        <div class="max-w-7xl mx-auto">
             <div class="shadow overflow-hidden sm:rounded-md">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <table id="crudTable">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Nama</th>
-                            <th>Aksi</th>
+                            <th>Name</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody></tbody>
@@ -50,4 +46,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-shop-layout>

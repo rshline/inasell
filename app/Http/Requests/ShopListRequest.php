@@ -27,7 +27,7 @@ class ShopListRequest extends FormRequest
         return [
             'users_id' => 'required|exists:users,id',
             'shops_id' => 'required|exists:shops,id',
-            'isOwner'=> 'boolean',
+            'is_owner'=> 'boolean',
             'status' => 'in:PENDING,MEMBER,REJECTED',
         ];
     }

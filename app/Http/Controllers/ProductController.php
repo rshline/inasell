@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Http\Requests\ProductRequest;
 use App\Models\ProductVariant;
+use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
 {
@@ -15,32 +16,42 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ProductRequest $request, ProductCategoryRequest $catRequest, $shop)
+    public function index($shop)
     {
         // Get only shop product
-        $products = Product::with(['productcategory'])
-                    ->where('shops_id', '=', $shop)
+        if (request()->ajax()) {
+            $query = Product::with(['productcategory'])
+                    ->where('shops_id', $shop)
                     ->get();
 
-        // Filter data by category 
-        if ($catRequest->get('productcategory')) {
-            $productcategory = $catRequest->productcategory;
-            $products->whereHas(
-                'productcategory',
-                function ($query) use ($productcategory) {
-                    $query->where('name', 'LIKE', "%{$productcategory}%");
-                }
-            );
+            return DataTables::of($query)
+                ->addColumn('action', function ($item) {
+                    return '
+                        <div class="flex flex-row justify-center">
+                            <a class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-1 py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out m-2 w-full md:w-auto" 
+                                href="' . route('dashboard.shop.product.show', ['shop'=>$item->shops_id, 'product'=>$item->id]) . '">
+                                Show
+                            </a>
+                            <a class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-1 py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out m-2 w-full md:w-auto" 
+                                href="' . route('dashboard.shop.product.edit', ['shop'=>$item->shops_id, 'product'=>$item->id]) . '">
+                                Edit
+                            </a>
+                            <form class="inline-block" action="' . route('dashboard.shop.product.destroy',  ['shop'=>$item->shops_id, 'product'=>$item->id]) . '" method="POST">
+                            <button class="border border-red-500 bg-red-500 hover:bg-red-600 border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-1 py-2 focus:outline-none focus:shadow-outline text-gray-100 hover:text-gray-200 transition-all duration-300 ease-in-out m-2 w-full md:w-auto" >
+                                Delete
+                            </button>
+                                ' . method_field('delete') . csrf_field() . '
+                            </form>                        
+                        </div>
+                        ';
+                })
+                ->rawColumns(['action'])
+                ->make();
         }
-
-        // Search data 
-        if ($request->get('keyword')) {
-            $products->search($request->keyword);
-        }
+            
 
         return view('pages.dashboard.product.index', [
-            'products' => $products->paginate(10),
-            'productcategories' => ProductCategory::all()
+            'shop' => $shop
         ]);
     }
 
@@ -51,21 +62,25 @@ class ProductController extends Controller
      */
     public function create($shop)
     {
-        $categories = ProductCategory::all();
-        return view('pages.dashboard.product.create', compact('categories'));
+        $categories = ProductCategory::where('shops_id', $shop)->get();
+        return view('pages.dashboard.product.create', compact('categories', 'shop'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+    * @return \Illuminate\Http\Response
      */
     public function store($shop, ProductRequest $request)
     {
-        $data = $request->all();
-
-        Product::create($data);
+        Product::create([
+            'shops_id' => $shop,
+            'name' => $request->name,
+            'qty' => $request->qty,
+            'desc' => $request->desc,
+            'categories_id' => $request->categories_id
+        ]);
 
         return redirect()->route('dashboard.shop.product.index', $shop);
     }
@@ -76,35 +91,15 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($shop, ProductRequest $request, Product $product)
+    public function show($shop, Product $product)
     {
-        $id = $request->input('id');
-        $limit = $request->input('limit');
-        $name = $request->input('name');
-        $categories = $request->input('categories');
-
-        if($id){
-            $product = Product::with(['category', 'galleries', 'variants'])
-                        ->where('shops_id', '=', $shop)
-                        ->find($id);
-
-            if ($product) {
-                return $product;
-            } else {
-                return null;
-            }
-        }
-
-        if ($name) {
-            $product->where('name', 'like', '%'.$name.'%');
-        }
-
-        if ($categories) {
-            $product->where('categories', $categories);
-        }
+        $product = Product::with(['productcategory', 'galleries', 'variants'])
+                    ->where('shops_id', $shop)
+                    ->find($product);
 
         return view('pages.dashboard.product.show', [
-            'item' =>$product->paginate($limit)
+            'product' =>$product,
+            'shop' => $shop
         ]); 
 
     }
@@ -115,14 +110,17 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($shop, Product $product)
     {
-        $categories = ProductCategory::all();
-        $product = Product::with(['galleries', 'variants']);
+        $categories = ProductCategory::where('shops_id', $shop)->get();
+        $product = Product::with(['galleries', 'variants'])
+                    ->find($product)
+                    ->first();
         
         return view('pages.dashboard.product.edit', [
             'product' => $product,
-            'categories' => $categories
+            'categories' => $categories,
+            'shop' => $shop
         ]);
     }
 
@@ -135,9 +133,13 @@ class ProductController extends Controller
      */
     public function update($shop, ProductRequest $request, Product $product)
     {
-        $data = $request->all();
-
-        $product->update($data);
+        $product->update([
+            'shops_id' => $shop,
+            'name' => $request->name,
+            'qty' => $request->qty,
+            'desc' => $request->desc,
+            'categories_id' => $request->categories_id
+        ]);
 
         return redirect()->route('dashboard.shop.product.index', $shop);
     }

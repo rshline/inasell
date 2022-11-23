@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Actions\Jetstream\DeleteUser;
 use App\View\Components\AdminLayout;
+use App\View\Components\Sidebar;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Blade;
@@ -31,7 +32,7 @@ class JetstreamServiceProvider extends ServiceProvider
 
         Jetstream::deleteUsersUsing(DeleteUser::class);
         Blade::component('admin-layout', AdminLayout::class);
-
+        Blade::component('sidebar', Sidebar::class);
     }
 
     /**

@@ -1,7 +1,7 @@
-<x-app-layout>
+<x-shop-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Product &raquo; {{ $item->name }} &raquo; Edit
+            Product &raquo; {{ $product->name }} &raquo; Edit
         </h2>
     </x-slot>
 
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 @endif
-                <form class="w-full" action="{{ route('dashboard.product.update', $item->id) }}" method="post" enctype="multipart/form-data">
+                <form class="w-full" action="{{ route('dashboard.shop.product.update', ['shop'=>$shop, 'product'=>$product->id]) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="flex flex-wrap -mx-3 mb-6">
@@ -32,7 +32,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                                 Name
                             </label>
-                            <input value="{{ old('name') ?? $item->name }}" name="name" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Product Name">
+                            <input value="{{ old('name') ?? $product->name }}" name="name" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Product Name">
                         </div>
                     </div>
                      <div class="flex flex-wrap -mx-3 mb-6">
@@ -41,7 +41,7 @@
                                 Categories
                             </label>
                             <select name="categories_id" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name">
-                                <option value="{{ $item->categories_id }}">{{ \App\Models\ProductCategory::find($item->categories_id)->name }}</option>
+                                <option value="{{ $product->categories_id }}">{{ \App\Models\ProductCategory::find($product->categories_id)->name }}</option>
                                 <option disabled>----</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -54,7 +54,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                                 Description
                             </label>
-                            <textarea name="desc" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Product Description">{{ old('desc') ?? $item->desc }}</textarea>
+                            <textarea name="desc" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Product Description">{{ old('desc') ?? $product->desc }}</textarea>
                         </div>
                     </div>
                     
@@ -63,7 +63,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                                 Quantity
                             </label>
-                            <input value="{{ old('qty') ?? $item->qty }}" name="qty" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="number" placeholder="Product Quantity">
+                            <input value="{{ old('qty') ?? $product->qty }}" name="qty" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="number" placeholder="Product Quantity">
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-6">
@@ -77,4 +77,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-shop-layout>

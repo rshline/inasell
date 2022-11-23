@@ -1,10 +1,10 @@
 <x-shop-layout>
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Edit Order
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight p-3">
+        Create Order
     </h2>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="p-3">
+        <div class="max-w-7xl mx-auto">
             <div>
                 @if ($errors->any())
                     <div class="mb-5" role="alert">
@@ -22,16 +22,26 @@
                         </div>
                     </div>
                 @endif
-                <form class="w-full" action="{{ route('dashboard.shop.order.update', ['shop'=>$order->shops_id, 'order'=>$order->id]) }}" method="post" enctype="multipart/form-data">
+                <form class="w-full" action="{{ route('dashboard.shop.order.store', ['shop'=>$shop]) }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('put')
-                    <div class="flex flex-wrap -mx-3 mb-6">
-                        <div class="w-full px-3">
+                    <div class="flex flex-wrap">
+                        <div class="w-full px-3 mb-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                                Customer Name
+                            </label>
+                            <input value="{{ old('customer_name') }}" name="customer_name" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Customer Name">
+                        </div>
+                        <div class="w-full px-3 mb-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
+                                Notes
+                            </label>
+                            <input value="{{ old('notes') }}" name="notes" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Notes">
+                        </div>
+                        <div class="w-full px-3 mb-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
                                 Status
                             </label>
                             <select name="status" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name">
-                                <option value="{{ $order->status }}">{{ $order->status }}</option>
                                 <option disabled>-------</option>
                                 <option value="PENDING">PENDING</option>
                                 <option value="SUCCESS">SUCCESS</option>
@@ -42,10 +52,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="flex flex-wrap mx-3 mb-6">
                         <div class="w-full px-3 text-right">
                             <button type="submit" class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-5 py-3 md:py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out my-4 md:my-0 w-full md:w-auto">
-                                Update
+                                Add
                             </button>
                         </div>
                     </div>

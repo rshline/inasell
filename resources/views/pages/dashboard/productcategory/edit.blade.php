@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-shop-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Category &raquo; {{ $item->name }} &raquo; Edit
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 @endif
-                <form class="w-full" action="{{ route('dashboard.productcategory.update', $item->id) }}" method="post" enctype="multipart/form-data">
+                <form class="w-full" action="{{ route('dashboard.shop.productcategory.update', ['shop'=>$shop, 'productcategory'=>$item->id]) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="flex flex-wrap -mx-3 mb-6">
@@ -37,8 +37,8 @@
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3 text-right">
-                            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                Update Product Category
+                            <button type="submit" class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-5 py-3 md:py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out my-4 md:my-0 w-full md:w-auto">
+                                Update Category
                             </button>
                         </div>
                     </div>
@@ -46,4 +46,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-shop-layout>

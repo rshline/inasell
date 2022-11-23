@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-shop-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {!! __('Add product') !!}
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 @endif
-                <form class="w-full" action="{{ route('dashboard.product.store') }}" method="post" enctype="multipart/form-data">
+                <form class="w-full" action="{{ route('dashboard.shop.product.store', $shop) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3">
@@ -73,4 +73,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-shop-layout>

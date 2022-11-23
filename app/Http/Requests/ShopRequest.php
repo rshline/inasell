@@ -26,7 +26,6 @@ class ShopRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'invitation_id' => 'required|max:20',
             'address' => 'max:255',
             'phone' => 'max:12',
         ];

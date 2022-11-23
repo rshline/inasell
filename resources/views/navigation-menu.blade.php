@@ -5,11 +5,9 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    @if(Auth::user()->roles == 'ADMIN')
-                        <a href="{{ route('home') }}">
-                            <x-jet-application-mark class="block h-9 w-auto" />
-                        </a>
-                    @endif
+                    <a href="{{ route('home') }}">
+                        <x-jet-application-mark class="block h-9 w-auto" />
+                    </a>
                 </div>
 
                 <!-- Navigation Links -->
@@ -24,16 +22,6 @@
                         </x-jet-nav-link>
                         <x-jet-nav-link href="">
                             {{ __('Shop') }}
-                        </x-jet-nav-link>
-                    @else
-                        <x-jet-nav-link href="{{ route('dashboard.shop.productcategory.index') }}" :active="request()->routeIs('dashboard.productcategory.index')">
-                            {{ __('Product Category') }}
-                        </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('dashboard.shop.product.index') }}" :active="request()->routeIs('dashboard.product.index')">
-                            {{ __('Product') }}
-                        </x-jet-nav-link>
-                        <x-jet-nav-link href="{{ route('dashboard.shop.order.index') }}" :active="request()->routeIs('dashboard.order.index')">
-                            {{ __('Order') }}
                         </x-jet-nav-link>
                     @endif
                 </div>

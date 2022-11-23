@@ -12,7 +12,7 @@ class ShopList extends Model
     protected $fillable = [
         'users_id',
         'shops_id',
-        'isOwner',
+        'is_owner',
         'status',
     ];
 

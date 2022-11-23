@@ -1,55 +1,53 @@
-<x-app-layout>
-    <div class="bg-white mt-5 min-h-full">
-        <div class="m-3 p-3 rounded shadow-lg flex justify-between align-middle">
-            <h2 class="font-semibold text-xl">
-                {{ __('Product') }}
-            </h2>
-            <a href="{{ route('dashboard.product.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg">
-                + Add Product
-            </a>
-        </div>
-
-        <form class="row g-3" method="GET">
-            <div class="col-auto">
-                <select name="city" class="form-select">
-                    <option value="" selected>All</option>
-                    @foreach ($productcategories as $productcategory)
-                    <option value="{{ $productcategory->name }}" {{ request('productcategory') === $productcategory->name ? 'selected' : null }}>
-                        {{ $productcategory->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-auto">
-                <input name="keyword" value="{{ request('keyword') }}" type="search" class="form-control"
-                    placeholder="Search...">
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-3">Search</button>
-            </div>
-        </form>
-
-        <div class="flex m-3 p-3">
-            @forelse($products as $product)
-                <div class="flex-1 m-3 p-3 w-2/6 rounded shadow-lg">
-                    <h3 class="font-semibold text-gray-800">
-                        {{ $product->name }}
-                    </h3>
-                    <a href="{{ route('dashboard.product.show') }}" class="">
-                        Show Details
-                    </a>
-                </div>
-            @empty
-                <h4>No product found.</h4>
-            @endforelse 
-        </div>
-
-        @if ($stores->hasPages())
-            <div class="row">
-                <div class="col">
-                    {{ $stores->links('pagination::bootstrap-4') }}
-                </div>
-            </div>
-        @endif
-
+<x-shop-layout>
+    <h2 class="font-semibold text-xl p-3">
+        {{ __('Product') }}
+    </h2>
+    <div class="p-3 flex justify-end">
+        <a href="{{ route('dashboard.shop.product.create', $shop) }}" class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-5 py-3 md:py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out my-4 md:my-0 w-full md:w-auto">
+            + Add Product
+        </a>        
     </div>
-</x-app-layout>
+
+    <x-slot name="script">
+        <script>
+            // AJAX DataTable
+            var datatable = $('#crudTable').DataTable({
+                ajax: {
+                    url: '{!! url()->current() !!}',
+                },
+                columns: [
+                    { data: 'name', name: 'name' },
+                    { data: 'productcategory.name', name: 'productcategory.name' },
+                    { data: 'qty', name: 'qty', width: '5%' },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable:  false,
+                        searchable: false,
+                        width: '30%'
+                    },
+                ],
+            });
+        </script>
+    </x-slot>
+
+    <div class="p-3">
+        <div class="max-w-7xl mx-auto">
+            <div class="shadow overflow-hidden sm:rounded-md">
+                <div class="px-4 py-5 bg-white sm:p-6">
+                    <table id="crudTable">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Categories</th>
+                            <th>Qty</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-shop-layout>

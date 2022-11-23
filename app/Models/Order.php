@@ -11,7 +11,9 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'shops_id',
         'users_id',
+        'customer_name',
         'status',
         'notes',
     ];
