@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class OrderController extends Controller
@@ -18,7 +20,7 @@ class OrderController extends Controller
      */
     public function index($shop)
     {
-        $orders = Order::with(['user', 'items'])
+        $orders = Order::with(['user', 'items.product'])
                     ->where('shops_id', $shop)
                     ->get();
 
@@ -56,8 +58,7 @@ class OrderController extends Controller
             'notes' => $request->notes,
         ]);
 
-        return redirect()->route('dashboard.shop.order.show', [
-            'order' => $order->id,
+        return redirect()->route('dashboard.shop.order.index', [
             'shop' => $shop
         ]);
     }
@@ -72,7 +73,7 @@ class OrderController extends Controller
     {
         return view('pages.dashboard.order.show', [
             'order' => $order,
-            'shop' => $shop
+            'shop' => $shop,
         ]);
     }
 
@@ -99,13 +100,11 @@ class OrderController extends Controller
      */
     public function update($shop, OrderRequest $request, Order $order)
     {
-        $data = $request->all();
-
-        $order->update($data);
-
-        return redirect()->route('dashboard.shop.order.index', [
-            'shops'=>$shop
+        $order->update([
+            'status' => $request->status
         ]);
+
+        return redirect()->route('dashboard.shop.order.index', $shop);
     }
 
     /**

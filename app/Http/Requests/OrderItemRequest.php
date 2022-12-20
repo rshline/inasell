@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrderRequest extends FormRequest
+class OrderItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class OrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return false;
     }
 
     /**
@@ -25,7 +24,9 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => 'in:PENDING,PROCESSED,DELIVERED,SUCCESS,CANCELLED'
+            'qty'=> 'required|integer|min:1',
+            'products_id' => 'required|exists:products,id',
+            'shops_id' => 'required|exists:shops,id'
         ];
     }
 }

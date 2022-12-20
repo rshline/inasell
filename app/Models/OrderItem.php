@@ -15,7 +15,11 @@ class OrderItem extends Model
         'qty',
     ];
 
+    public function order(){
+        return $this->belongsTo(Order::class, 'orders_id', 'id');
+    }
+
     public function product(){
-        return $this->hasOne(Product::class, 'id', 'products_id');
+        return $this->belongsTo(Product::class, 'products_id', 'id');
     }
 }

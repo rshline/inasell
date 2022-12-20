@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductGalleryController;
 use App\Http\Controllers\ProductVariantController;
@@ -54,7 +55,8 @@ Route::group(['middleware' => [
         Route::resource('product.productgallery', ProductGalleryController::class);
         Route::resource('product.productvariant', ProductVariantController::class);
         Route::resource('shop.order', OrderController::class);
-        Route::resource('order.orderitem', OrderController::class);
+        //Route::get('/shop/{shop?}/order/{order?}/add', [OrderController::class, 'add'])->name('add_order_item');
+        Route::resource('shop.order.orderitem', OrderItemController::class);
     }));
     
 });

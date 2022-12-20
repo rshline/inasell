@@ -153,28 +153,28 @@
 
             <div class="flex">
                 <!-- aside -->
-                <aside class="flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-white p-2" style="height: 85vh"
+                <aside class="flex w-52 min-h-screen h-screen flex-col space-y-2 border-r-2 border-gray-200 bg-white p-4"
                     x-show="asideOpen">
-                    <x-jet-nav-link href="{{ route('dashboard.shop.index') }}">
-                        <span class="text-2xl"><iconify-icon icon="material-symbols:home-outline-rounded"></iconify-icon></span>
-                        {{ __('Dashboard') }}
+                    <x-jet-nav-link href="{{ route('dashboard.shop.index') }}" class="flex space-x-2 text-2xl">
+                        <iconify-icon icon="material-symbols:home-outline-rounded"></iconify-icon>
+                        <p class="text-base">{{ __('Dashboard') }}</p>
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard.shop.index') }}" :active="request()->routeIs('dashboard.shop.show',  request()->shop)">
-                        <span class="text-2xl"><iconify-icon icon="mdi:shop-outline"></iconify-icon></span>
-                        {{ __('Shop') }}
+                    <x-jet-nav-link href="{{ route('dashboard.shop.index') }}" :active="request()->routeIs('dashboard.shop.show',  request()->shop)" class="flex space-x-2 text-2xl">
+                        <iconify-icon icon="mdi:shop-outline"></iconify-icon>
+                        <p class="text-base">{{ __('Shop') }}</p>
                     </x-jet-nav-link>
                     @if (!is_null(request()->shop))
-                    <x-jet-nav-link href="{{ route('dashboard.shop.productcategory.index', ['shop'=>request()->shop]) }}" :active="request()->routeIs('dashboard.shop.productcategory.index', ['shop'=>request()->shop])">
-                        <span class="text-2xl"><iconify-icon icon="bx:category-alt"></iconify-icon></span>
-                        {{ __('Category') }}
+                    <x-jet-nav-link href="{{ route('dashboard.shop.productcategory.index', ['shop'=>request()->shop]) }}" :active="request()->routeIs('dashboard.shop.productcategory.index', ['shop'=>request()->shop])" class="flex space-x-2 text-2xl">
+                        <iconify-icon icon="bx:category-alt"></iconify-icon>
+                        <p class="text-base">{{ __('Category') }}</p>
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard.shop.product.index', ['shop'=>request()->shop]) }}" :active="request()->routeIs('dashboard.shop.product.index', ['shop'=>request()->shop])">
-                        <span class="text-2xl"><iconify-icon icon="gridicons:product"></iconify-icon></span>
-                        {{ __('Product') }}
+                    <x-jet-nav-link href="{{ route('dashboard.shop.product.index', ['shop'=>request()->shop]) }}" :active="request()->routeIs('dashboard.shop.product.index', ['shop'=>request()->shop])" class="flex space-x-2 text-2xl">
+                        <iconify-icon icon="gridicons:product"></iconify-icon>
+                        <p class="text-base">{{ __('Product') }}</p>
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard.shop.order.index', ['shop'=>request()->shop]) }}" :active="request()->routeIs('dashboard.shop.order.index', ['shop'=>request()->shop])">
-                        <span class="text-2xl"><iconify-icon icon="mdi:order-bool-descending-variant"></iconify-icon></span>
-                        {{ __('Order') }}
+                    <x-jet-nav-link href="{{ route('dashboard.shop.order.index', ['shop'=>request()->shop]) }}" :active="request()->routeIs('dashboard.shop.order.index', ['shop'=>request()->shop])" class="flex space-x-2 text-2xl">
+                        <iconify-icon icon="mdi:order-bool-descending-variant"></iconify-icon>
+                        <p class="text-base">{{ __('Order') }}</p>
                     </x-jet-nav-link>                        
                     @endif
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderItemController extends Controller
@@ -22,9 +23,17 @@ class OrderItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($shop, $order)
     {
-        //
+        $products = Product::with(['productcategory'])
+                    ->where('shops_id', $shop)
+                    ->get();
+
+        return view('pages.dashboard.orderitem.create', [
+            'order' => $order,
+            'shop' => $shop,
+            'products' => $products
+        ]);
     }
 
     /**
@@ -33,9 +42,18 @@ class OrderItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($shop, $order, Request $request)
     {
-        //
+        $order = OrderItem::create([
+            'products_id' => $request->products_id,
+            'orders_id' => $request->orders_id,
+            'qty' => $request->qty,
+        ]);
+
+        return redirect()->route('dashboard.shop.order.index', [
+            'order' => $order,
+            'shop' => $shop
+        ]);
     }
 
     /**

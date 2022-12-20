@@ -34,11 +34,10 @@
                                 <option value="{{ $order->status }}">{{ $order->status }}</option>
                                 <option disabled>-------</option>
                                 <option value="PENDING">PENDING</option>
+                                <option value="PROCESSED">PROCESSED</option>
+                                <option value="DELIVERED">DELIVERED</option>
                                 <option value="SUCCESS">SUCCESS</option>
                                 <option value="CANCELLED">CANCELLED</option>
-                                <option value="FAILED">FAILED</option>
-                                <option value="SHIPPING">SHIPPING</option>
-                                <option value="SHIPPED">SHIPPED</option>
                             </select>
                         </div>
                     </div>
