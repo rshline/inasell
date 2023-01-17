@@ -31,12 +31,14 @@
         </style>
     </head>
     <body class="antialiased text-slate-600">
-      <section class="flex flex-col px-8 md:px-16 max-w-screen-2xl min-h-screen">
+      <section class="flex flex-col px-8 md:px-16 w-screen h-screen justify-evenly">
+        <!-- logo -->
         <header class="py-8">
           <x-jet-application-mark class="h-9 w-auto" />
         </header>
-        <section class="flex max-lg:flex-col lg:items-center py-12 md:py-24 gap-20">
-          <section class="flex-1 col-span-2 align-middle">
+        <section class="grid grid-cols-2 gap-1 py-12">
+          <!-- Text -->
+          <section class="flex flex-col align-middle">
             <div>
               <h1 class="text-3xl xl:text-4xl font-black md:leading-none xl:leading-tight">
                 Online Shop Management System
@@ -45,26 +47,24 @@
                 Help you to manage your online shop. 
               </p>              
             </div>
-            <div>
-              <div class="flex flex-col">
-                  @if (Route::has('login'))
-                      <div class="py-4">
-                          @auth
-                              <a href="{{ route('dashboard.shop.index') }}" class="transition-all duration-100 ease-in-out pb-1 border-b-2 text-indigo-500 border-transparent hover:border-indigo-300 hover:text-indigo-600 md:mr-8 text-lg md:text-sm font-bold tracking-wide my-4 md:my-0">Dashboard</a>
-                          @else
-                              <a href="{{ route('login') }}" class="transition-all duration-100 ease-in-out pb-1 border-b-2 text-indigo-500 border-transparent hover:border-indigo-300 hover:text-indigo-600 md:mr-8 text-lg md:text-sm font-bold tracking-wide my-4 md:my-0">Log in</a>
+            <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-0">
+                @if (Route::has('login'))
+                    <div class="py-4">
+                        @auth
+                            <a href="{{ route('dashboard.shop.index') }}" class="transition-all duration-100 ease-in-out pb-1 border-b-2 text-indigo-500 border-transparent hover:border-indigo-300 hover:text-indigo-600 md:mr-8 text-lg md:text-sm font-bold tracking-wide my-4 md:my-0">Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}" class="transition-all duration-100 ease-in-out pb-1 border-b-2 text-indigo-500 border-transparent hover:border-indigo-300 hover:text-indigo-600 md:mr-8 text-lg md:text-sm font-bold tracking-wide my-4 md:my-0">Log in</a>
 
-                              @if (Route::has('register'))
-                                  <a href="{{ route('register') }}" class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-5 py-3 md:py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out my-4 md:my-0 w-full md:w-auto">Register</a>
-                              @endif
-                          @endauth
-                      </div>
-                  @endif
-              </div>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-5 py-3 md:py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out my-4 md:my-0 w-full md:w-auto">Register</a>
+                            @endif
+                        @endauth
+                    </div>
+                @endif
             </div>
           </section>
           <!-- Illustration -->
-          <section class="flex-1">
+          <section class="flex justify-end">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="240px"
               viewBox="0 0 688 647.1" style="enable-background:new 0 0 688 647.1;" xml:space="preserve">
               <style type="text/css">
@@ -246,51 +246,9 @@
             </svg>
           </section>
         </section>
-        <footer class="py-8 mt-auto">
+        <footer class="py-8">
           <p class="font-bold text-gray-500">&copy; 2022 In a Sell</p>
         </footer>
       </section>
     </body>
-
-    <!-- <body class="antialiased min-h-screen">
-        <header class="px-5 sm:px-10 md:px-10 md:py-5 lg:px-20 flex items-center justify-between">
-            <div>
-                <x-jet-application-mark class="block h-9 w-auto" />
-            </div>                
-            <div class="flex flex-col items-center justify-center md:block">
-                @if (Route::has('login'))
-                    <div class="hidden fixed right-0 px-6 py-4 sm:block">
-                        @auth
-                            <a href="{{ route('dashboard.shop.index') }}" class="transition-all duration-100 ease-in-out pb-1 border-b-2 text-indigo-500 border-transparent hover:border-indigo-300 hover:text-indigo-600 md:mr-8 text-lg md:text-sm font-bold tracking-wide my-4 md:my-0">Dashboard</a>
-                        @else
-                            <a href="{{ route('login') }}" class="transition-all duration-100 ease-in-out pb-1 border-b-2 text-indigo-500 border-transparent hover:border-indigo-300 hover:text-indigo-600 md:mr-8 text-lg md:text-sm font-bold tracking-wide my-4 md:my-0">Log in</a>
-
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-5 py-3 md:py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out my-4 md:my-0 w-full md:w-auto">Register</a>
-                            @endif
-                        @endauth
-                    </div>
-                @endif
-            </div>
-        </header>
-
-        <main>
-        <div id="hero" class="flex align-middle">
-          <div class="px-5">
-            <h1 class="text-3xl xl:text-4xl font-black md:leading-none xl:leading-tight">
-              Online Shop Management System
-            </h1>
-            <p class="font-mono mt-4 xl:mt-2">
-              Help you to manage your online shop. 
-            </p>
-          </div>
-
-          <div></div>
-        </div>
-      </main>
-
-      <footer class="p-3 text-center">
-        <p class="font-bold text-gray-500">&copy; 2022 In a Sell</p>
-      </footer>
-    </body> -->
 </html>

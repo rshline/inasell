@@ -4,7 +4,7 @@
             {{ __('Your Shop') }}
         </h2>
         <div class="flex justify-end mb-6 mx-2">
-            <a href="{{ route('dashboard.shop.create') }}" class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-5 py-3 md:py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out my-4 md:my-0 w-full md:w-auto">
+            <a href="{{ route('dashboard.shop.create') }}" class="btn-primary">
                 + Create New Shop
             </a>                
         </div>

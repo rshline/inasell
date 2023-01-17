@@ -18,11 +18,15 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($shop)
+    public function index($shop, OrderRequest $request)
     {
         $orders = Order::with(['user', 'items.product'])
                     ->where('shops_id', $shop)
-                    ->get();
+                    ->where('status', 'LIKE', '%'.$request->status.'%')
+                    ->paginate(5);
+
+        $orders->setPath('order');
+        $orders->appends($request->all());
 
         return view('pages.dashboard.order.index', [
             'orders' => $orders,
@@ -85,8 +89,11 @@ class OrderController extends Controller
      */
     public function edit($shop, Order $order)
     {
-        return view('pages.dashboard.order.edit',[
-            'order' => $order,
+        $order_detail =  Order::with('items.product')
+                        ->find($order->id);
+
+        return view('pages.dashboard.order.edit', [
+            'order' => $order_detail,
             'shop' => $shop
         ]);
     }

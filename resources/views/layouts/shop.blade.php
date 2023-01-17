@@ -151,9 +151,9 @@
                 </div>                
             </header>
 
-            <div class="flex">
+            <div class="flex min-h-screen h-full">
                 <!-- aside -->
-                <aside class="flex w-52 min-h-screen h-screen flex-col space-y-2 border-r-2 border-gray-200 bg-white p-4"
+                <aside class="flex w-52 flex-col space-y-2 border-r-2 border-gray-200 bg-white p-4"
                     x-show="asideOpen">
                     <x-jet-nav-link href="{{ route('dashboard.shop.index') }}" class="flex space-x-2 text-2xl">
                         <iconify-icon icon="material-symbols:home-outline-rounded"></iconify-icon>

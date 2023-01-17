@@ -44,11 +44,12 @@ class OrderItemController extends Controller
      */
     public function store($shop, $order, Request $request)
     {
-        $order = OrderItem::create([
-            'products_id' => $request->products_id,
-            'orders_id' => $request->orders_id,
-            'qty' => $request->qty,
-        ]);
+        $order = OrderItem::firstOrNew(
+            ['products_id' => $request->products_id, 'orders_id' => $request->orders_id]
+        );
+
+        $order->qty = ($order->qty + $request->qty);
+        $order->save();
 
         return redirect()->route('dashboard.shop.order.index', [
             'order' => $order,

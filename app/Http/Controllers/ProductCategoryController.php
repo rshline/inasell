@@ -23,17 +23,17 @@ class ProductCategoryController extends Controller
             return DataTables::of($query)
                 ->addColumn('action', function ($item) {
                     return '
-                        <div class="flex flex-row justify-center">
-                            <a class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-1 py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out m-2 w-full md:w-auto" 
+                        <div class="flex flex-row space-x-2 justify-center">
+                            <a class="my-4 px-3 py-1 w-auto border border-transparent rounded font-semibold text-sm focus:outline-none bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out" 
                                 href="' . route('dashboard.shop.productcategory.show', ['shop'=>$item->shops_id, 'productcategory'=>$item->id]) . '">
                                 Show
                             </a>
-                            <a class="border border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-1 py-2 focus:outline-none focus:shadow-outline bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out m-2 w-full md:w-auto" 
+                            <a class="my-4 px-3 py-1 w-auto border border-transparent rounded font-semibold text-sm focus:outline-none bg-indigo-600 text-gray-100 hover:bg-indigo-800 hover:text-gray-200 transition-all duration-300 ease-in-out" 
                                 href="' . route('dashboard.shop.productcategory.edit', ['shop'=>$item->shops_id, 'productcategory'=>$item->id]) . '">
                                 Edit
                             </a>
                             <form class="inline-block" action="' . route('dashboard.shop.productcategory.destroy',  ['shop'=>$item->shops_id, 'productcategory'=>$item->id]) . '" method="POST">
-                            <button class="border border-red-500 bg-red-500 hover:bg-red-600 border-transparent rounded font-semibold tracking-wide text-lg md:text-sm px-1 py-2 focus:outline-none focus:shadow-outline text-gray-100 hover:text-gray-200 transition-all duration-300 ease-in-out m-2 w-full md:w-auto" >
+                            <button class="my-4 px-3 py-1 w-auto border border-transparent rounded font-semibold text-sm focus:outline-none bg-red-600 text-gray-100 hover:bg-red-800 hover:text-gray-200 transition-all duration-300 ease-in-out" >
                                 Delete
                             </button>
                                 ' . method_field('delete') . csrf_field() . '
