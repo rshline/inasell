@@ -3,7 +3,7 @@
         Edit Order
     </h2>
 
-    <div class="py-12 max-w-7xl mx-auto">
+    <div class="my-4 max-w-7xl mx-auto">
         <div>
             @if ($errors->any())
                 <div class="mb-5" role="alert">
@@ -52,10 +52,25 @@
     </div>
 
     <div>
-        @foreach ($order->items as $item)
-            <p>{{ $item->product->name }}</p>
-            <p>{{ $item->product->qty }}</p>
-        @endforeach
-
+        <h3 class="font-bold mb-4">Order Items</h3>
+        <div class="grid grid-cols-2 gap-4">
+            <!-- Items -->
+            @foreach ($order->items as $item)
+                <div class="flex px-4 py-2 justify-between bg-white rounded-lg items-center">
+                    <p>{{ $item->product->name }}</p>
+                    <div class="flex spacex-2">
+                        <p>{{ $item->qty }} item(s)</p>  
+                        <form class="inline-block" action="{{ route('dashboard.shop.order.orderitem.destroy',  ['shop'=>$shop, 'order'=>$order, 'orderitem'=>$item]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                                <button type="submit">
+                                    <iconify-icon  icon="ic:round-delete-forever"></iconify-icon>
+                                </button>
+                        </form>                               
+                    </div>
+     
+                </div>  
+            @endforeach
+        </div>
     </div>
 </x-shop-layout>

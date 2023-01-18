@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderItemRequest;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -51,6 +53,14 @@ class OrderItemController extends Controller
         $order->qty = ($order->qty + $request->qty);
         $order->save();
 
+        // decrease quantity
+        $product = Product::where('shops_id', $shop)
+                    ->find($request->products_id);
+
+        $product->update([
+            'qty' => ($product->qty - $request->qty),
+        ]);
+
         return redirect()->route('dashboard.shop.order.index', [
             'order' => $order,
             'shop' => $shop
@@ -86,9 +96,9 @@ class OrderItemController extends Controller
      * @param  \App\Models\OrderItem  $orderItem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, OrderItem $orderItem)
+    public function update($shop, OrderItemRequest $request, Order $order,  OrderItem $orderItem)
     {
-        //
+
     }
 
     /**
@@ -97,8 +107,10 @@ class OrderItemController extends Controller
      * @param  \App\Models\OrderItem  $orderItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(OrderItem $orderItem)
+    public function destroy($shop, OrderItem $orderItem)
     {
-        //
+        $orderItem->delete();
+
+        return redirect()->route('dashboard.shop.order.index', $shop);
     }
 }

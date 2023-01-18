@@ -95,7 +95,7 @@ class ProductController extends Controller
     {
         $product = Product::with(['productcategory', 'galleries', 'variants'])
                     ->where('shops_id', $shop)
-                    ->find($product);
+                    ->findOrFail($product->id);
 
         return view('pages.dashboard.product.show', [
             'product' =>$product,
@@ -114,8 +114,8 @@ class ProductController extends Controller
     {
         $categories = ProductCategory::where('shops_id', $shop)->get();
         $product = Product::with(['galleries', 'variants'])
-                    ->find($product)
-                    ->first();
+                    ->where('shops_id', $shop)
+                    ->firstWhere('id', $product->id);
         
         return view('pages.dashboard.product.edit', [
             'product' => $product,

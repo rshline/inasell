@@ -11,7 +11,7 @@
         <form action="{{ route('dashboard.shop.order.index', $shop) }}" method="get" class="flex w-full justify-between">
             @csrf
             <select name="status" class="h-fit">
-                <option value="" {{(isset($_GET['status']) && $_GET['status'] == '')?'selected': ''}}>All</option>
+                <option value="" {{(isset($_GET['status']) && $_GET['status'] == '')?'selected': ''}}>---</option>
                 <option value="PENDING" {{(isset($_GET['status']) && $_GET['status'] == 'PENDING')?'selected': ''}}>PENDING</option>
                 <option value="PROCESSED" {{(isset($_GET['status']) && $_GET['status'] == 'PROCESSED')?'selected': ''}}>PROCESSED</option>
                 <option value="DELIVERED" {{(isset($_GET['status']) && $_GET['status'] == 'DELIVERED')?'selected': ''}}>DELIVERED</option>
