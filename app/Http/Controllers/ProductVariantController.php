@@ -34,13 +34,22 @@ class ProductVariantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($product, Request $request)
     {
-        //
-        $variant = ProductVariant::create();
-        $variant->save();
 
-        return redirect()->route('dashboard.shop.product.show', $request->shops_id);
+        if (count($request->name) > 0)  {
+            foreach ($request->name as $variant => $value) {
+                $variant = ProductVariant::create([
+                    'products_id' => $product,
+                    'name' => $value
+                ]);
+                $variant->save();
+            }
+        }
+        // $variant = ProductVariant::create();
+        // $variant->save();
+
+        return redirect()->back();
     }
 
     /**

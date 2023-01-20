@@ -16,7 +16,7 @@ class ProductGallery extends Model
         'url',
     ];
 
-    public function getUrlAttribute(){
-        return config('app.url') . Storage::url($this->url);
-    }
+    // public function getUrlAttribute(){
+    //     return config('app.url') . Storage::url($this->url);
+    // }
 }

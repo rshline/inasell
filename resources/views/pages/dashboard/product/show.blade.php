@@ -7,5 +7,11 @@
     <p>{{ $product->galleries }}</p>
 
     <h1>Variants</h1>
-    <p>{{ $product->variants }}</p>
+    <ul class="list-disc">
+        @if (count($product->variants) > 0)
+            @foreach ($product->variants as $variant)
+                <li>{{$variant->name}}</li>
+            @endforeach
+        @endif                        
+    </ul>
 </x-shop-layout>

@@ -81,7 +81,8 @@
          <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
          <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
          <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+         <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">
