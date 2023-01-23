@@ -49,7 +49,12 @@ Route::group(['middleware' => [
         Route::get('/', [DashboardController::class, 'index'])->name('index');
 
         Route::resource('shop', ShopController::class);
-        Route::resource('shoplist', ShopListController::class);
+        Route::get('/shoplist/create', [ShopListController::class, 'create'])->name('shoplist.create');
+        Route::post('/shoplist/store', [ShopListController::class, 'store'])->name('shoplist.store');
+        Route::get('shop/{shop}/shoplist/index', [ShopListController::class, 'index'])->name('shop.shoplist.index');
+        Route::patch('/shoplist/{shopList}/update', [ShopListController::class, 'update'])->name('shoplist.update');
+        Route::delete('/shoplist/{shopList}/destroy', [ShopListController::class, 'destroy'])->name('shoplist.destroy');
+        // Route::resource('shoplist', ShopListController::class);
         Route::resource('shop.product', ProductController::class);
         Route::resource('shop.productcategory', ProductCategoryController::class);
         Route::resource('product.productgallery', ProductGalleryController::class);

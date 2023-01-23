@@ -82,7 +82,7 @@
             <!-- Order Items -->
             @foreach ($order->items as $item)
                 <div class="items-{{$order->id}} mt-2 mx-2 px-4 py-2 flex bg-white overflow-hidden rounded drop-shadow-md w-full justify-between">
-                    <h2>{{ $item->product->name }}</h2>
+                    <a href="{{ route('dashboard.shop.product.show', ['shop'=>$shop, 'product'=>$item->product->id]) }}">{{ $item->product->name }}</a>
                     <p><b>{{ $item->qty }} </b>items</p>
                 </div>            
             @endforeach

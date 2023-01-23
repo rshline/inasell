@@ -159,7 +159,7 @@
                         <iconify-icon icon="material-symbols:home-outline-rounded"></iconify-icon>
                         <p class="text-base">{{ __('Dashboard') }}</p>
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('dashboard.shop.index') }}" :active="request()->routeIs('dashboard.shop.show',  request()->shop)" class="flex space-x-2 text-2xl">
+                    <x-jet-nav-link href="{{ route('dashboard.shop.show', ['shop'=>request()->shop]) }}"  :active="request()->routeIs('dashboard.shop.show',  ['shop'=>request()->shop])" class="flex space-x-2 text-2xl">
                         <iconify-icon icon="mdi:shop-outline"></iconify-icon>
                         <p class="text-base">{{ __('Shop') }}</p>
                     </x-jet-nav-link>
@@ -175,7 +175,11 @@
                     <x-jet-nav-link href="{{ route('dashboard.shop.order.index', ['shop'=>request()->shop]) }}" :active="request()->routeIs('dashboard.shop.order.index', ['shop'=>request()->shop])" class="flex space-x-2 text-2xl">
                         <iconify-icon icon="mdi:order-bool-descending-variant"></iconify-icon>
                         <p class="text-base">{{ __('Order') }}</p>
-                    </x-jet-nav-link>                        
+                    </x-jet-nav-link>   
+                    <x-jet-nav-link href="{{ route('dashboard.shop.shoplist.index', ['shop'=>request()->shop]) }}" :active="request()->routeIs('dashboard.shop.shoplist.index', ['shop'=>request()->shop])" class="flex space-x-2 text-2xl">
+                        <iconify-icon icon="tabler:users"></iconify-icon>
+                        <p class="text-base">{{ __('Member') }}</p>
+                    </x-jet-nav-link>                           
                     @endif
 
                 </aside>

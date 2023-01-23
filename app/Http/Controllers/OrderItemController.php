@@ -107,10 +107,22 @@ class OrderItemController extends Controller
      * @param  \App\Models\OrderItem  $orderItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy($shop, OrderItem $orderItem)
+    public function destroy($shop, $order, $orderitem)
     {
-        $orderItem->delete();
+        $item = OrderItem::find($orderitem);
+        $item->delete();
 
-        return redirect()->route('dashboard.shop.order.index', $shop);
+        // change qty
+        $product = Product::where('shops_id', $shop)
+                    ->find($item->products_id);
+
+        $product->update([
+            'qty' => ($product->qty + $item->qty),
+        ]);
+
+        return redirect()->route('dashboard.shop.order.edit', [
+            'order' => $order,
+            'shop' => $shop
+        ]);
     }
 }

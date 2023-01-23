@@ -19,11 +19,16 @@ class ShopController extends Controller
     public function index()
     {
         $shops = Shop::whereHas('shoplists', function($query) {
-            $query->where('users_id', Auth()->user()->id);
+                $query->where('users_id', Auth()->user()->id)->where('status', 'MEMBER');
+        })->get();
+
+        $pending_shops = Shop::whereHas('shoplists', function($query) {
+            $query->where('users_id', Auth()->user()->id)->where('status', 'PENDING');
         })->get();
 
         return view('pages.dashboard.shop.index', [
-            'shops' => $shops
+            'shops' => $shops,
+            'pending_shops' => $pending_shops
         ]);
     }
 
@@ -72,7 +77,9 @@ class ShopController extends Controller
      */
     public function show(Shop $shop)
     {
-        $shop_info = Shop::with('shoplists', 'shoplists.user')
+        $shop_info = Shop::with(['shoplists' => function($query) {
+                        $query->where('status', '=', 'MEMBER');
+                    }, 'shoplists.user'])
                     ->where('id', $shop->id)
                     ->first();
 

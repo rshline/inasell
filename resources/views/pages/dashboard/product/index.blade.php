@@ -1,6 +1,6 @@
 <x-shop-layout>
     <div class="flex justify-between p-3 mb-6">
-        <h2 class="font-semibold text-xl p-3">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Product') }}
         </h2>
         <a href="{{ route('dashboard.shop.product.create', $shop) }}" class="btn-primary">
