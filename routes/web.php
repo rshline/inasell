@@ -62,6 +62,9 @@ Route::group(['middleware' => [
         Route::resource('shop.order', OrderController::class);
         //Route::get('/shop/{shop?}/order/{order?}/add', [OrderController::class, 'add'])->name('add_order_item');
         Route::resource('shop.order.orderitem', OrderItemController::class);
+
+        // additonal function
+        Route::get('/shop/{shop?}/exportorder', [OrderController::class, 'exportOrderToPDF'])->name('shop.exportorder');
     }));
     
 });

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
@@ -125,5 +126,16 @@ class OrderController extends Controller
         $order->delete();
 
         return redirect()->route('dashboard.shop.order.index', $shop);
+    }
+
+    public function exportOrderToPDF($shop)
+    {
+        $orders = Order::with('items.product')
+                    ->where('shops_id', $shop)
+                    ->get();
+
+        $pdf = Pdf::loadView('orderpdf', ['orders' => $orders]);
+
+        return $pdf->download('dataorder.pdf');
     }
 }

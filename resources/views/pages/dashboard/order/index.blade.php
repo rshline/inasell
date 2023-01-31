@@ -89,6 +89,10 @@
         @endforeach
     </div>
 
+    <div class="flex justify-end mx-4 my-6">
+        <a href="{{ route('dashboard.shop.exportorder', ['shop'=>$shop]) }}" class="btn-primary">Export as PDF</a>
+    </div>
+
     <div class="my-4">
         {{ $orders->links() }}
     </div>
